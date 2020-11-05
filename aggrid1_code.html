@@ -1,0 +1,331 @@
+<html>
+	<head>
+
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+        <script src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.js"></script>
+        <script src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.js"></script>
+
+        <style>
+            .a1 {
+            background-color:#FF0000;
+            }
+            .a2 {
+            background-color: #FF1100;
+            }
+            .a3 {
+            background-color: #FF2200;
+            }
+            .a4 {
+            background-color:#FF3300;
+            }
+            .a5 {
+            background-color: #FF4400;
+            }
+            .a6 {
+            background-color: #FF5500;
+            }
+            .a7 {
+            background-color:#FF6600;
+            }
+            .a8 {
+            background-color: #FF7700;
+            }
+            .a9 {
+            background-color: #FF8800;
+            }
+            .a10 {
+            background-color:#FF9900;
+            }
+            .a11 {
+            background-color: #FFAA00;
+            }
+            .a12 {
+            background-color: #FFAB00;
+            }
+            .a13 {
+            background-color:#FFCC00;
+            }
+            .a14 {
+            background-color: #FFDD00;
+            }
+            .a15 {
+            background-color: #FFEE00;
+            }
+            .a16 {
+            background-color:#FFFF00;
+            }
+            .a17 {
+            background-color: #EEFF00;
+            }
+            .a18 {
+            background-color: #DDFF00;
+            }
+            .a19 {
+            background-color:#CCFF00;
+            }
+            .a20 {
+            background-color: #CBFF00;
+            }
+            .a21 {
+            background-color: #CCFF00;
+            }
+            .a22 {
+            background-color: #BBFF00;
+            }
+            .a23 {
+            background-color: #ABFF00;
+            }
+            .a24 {
+            background-color: #AAFF00;
+            }
+            .a25 {
+            background-color: #88FF00;
+            }
+            .a26 {
+            background-color: #77FF00;
+            }
+            .a27 {
+            background-color:#66FF00;
+            }
+            .a28 {
+            background-color: #55FF00;
+            }
+            .a29 {
+            background-color: #44FF00;
+            }
+            .a30 {
+            background-color: #33FF00;
+            }
+            .a31 {
+            background-color: #11FF00;
+            }
+            .a252 {
+            background-color: #82FF00;
+            }
+            .a262 {
+            background-color: #60FF00;
+            }
+        </style>
+        
+        <!-- Data Pull/Scrub -->
+        <script type="text/javascript">
+        
+
+            function Get(yourUrl){
+                var Httpreq = new XMLHttpRequest(); // a new request
+                Httpreq.open("GET",yourUrl,false);
+                Httpreq.send(null);
+                return Httpreq.responseText;          
+            }
+            
+            // ag grid data pull and scrub
+            var worldview = JSON.parse(Get('http://18.216.242.3/aggrid/world'));
+            const product_keys_ag = Object.keys(worldview[0]).filter(function(number){
+            return number;
+            });
+
+            product_keys_ag.forEach((key) => {
+                worldview.forEach((item) => {
+                if (key !== 'Description' & key !== 'Symbol') {
+                item[key] = Number(Number(item[key]).toFixed(2))
+                }
+            })
+            });
+            //this function takes raw AGgrid json and makes it ready
+            function getColdefs() {
+
+                let  coldefs = []
+                const product_keys_ag = Object.keys(worldview[0]).filter(function(number){
+                if (number !== '_id' & number !== 'date') {
+                    return  number;
+                }
+                });
+
+                product_keys_ag.forEach((key) => {
+                
+                if (key === 'RS-5' || key === 'RS-21' || key === 'RS-63') {
+                    coldefs = [...coldefs, {
+                        headerName: key,
+                        field: key,
+                        //aggFunc: 'sum',
+                        enablePivot: true,
+                        cellClassRules: {
+                            'a1': 'x <= 3',
+                            'a2': 'x > 3  && x <= 6',
+                            'a3': 'x > 6  && x <= 9',
+                            'a4': 'x > 9  && x <= 12',
+                            'a5': 'x > 12  && x <= 15',
+                            'a6': 'x > 15  && x <= 18',
+                            'a7': 'x > 18  && x <= 21',
+                            'a8': 'x > 21  && x <= 24',
+                            'a9': 'x > 24  && x <= 27',
+                            'a10': 'x > 27  && x <= 30',
+                            'a11': 'x > 30  && x <= 33',
+                            'a12': 'x > 33  && x < 36',
+                            'a13': 'x > 36  && x <= 39',
+                            'a14': 'x > 39  && x <= 42',
+                            'a15': 'x > 42  && x <= 45',
+                            'a16': 'x > 45  && x <= 48',
+                            'a17': 'x > 48  && x <= 51',
+                            'a18': 'x > 51  && x <= 54',
+                            'a19': 'x > 54  && x <= 57',
+                            'a20': 'x > 57  && x <= 60',
+                            'a21': 'x > 60  && x <= 63',
+                            'a22': 'x > 63  && x <= 66',
+                            'a23': 'x > 66  && x <= 69',
+                            'a24': 'x > 69  && x <= 72',
+                            'a25': 'x > 72  && x <= 75',
+                            'a252': 'x > 75  && x <= 81',
+                            //'a26': 'x > 78  && x <= 81',
+                            'a262': 'x > 81  && x <= 84',
+                            'a27': 'x > 84  && x <= 87',
+                            'a28': 'x > 87  && x <= 90',
+                            'a29': 'x > 90  && x <= 93',
+                            'a30': 'x > 83 && x <= 96',
+                            'a31': 'x > 96  && x <= 99',
+
+                        }
+                        }];}
+                else if (key === 'RS') {
+                    
+                    coldefs = [...coldefs, {
+                        sort: 'desc',
+                        headerName: key,
+                        field: key,
+                        //aggFunc: 'sum',
+                        enablePivot: true,
+                        cellClassRules: {
+                            'a1': 'x <= 3',
+                            'a2': 'x > 3  && x <= 6',
+                            'a3': 'x > 6  && x <= 9',
+                            'a4': 'x > 9  && x <= 12',
+                            'a5': 'x > 12  && x <= 15',
+                            'a6': 'x > 15  && x <= 18',
+                            'a7': 'x > 18  && x <= 21',
+                            'a8': 'x > 21  && x <= 24',
+                            'a9': 'x > 24  && x <= 27',
+                            'a10': 'x > 27  && x <= 30',
+                            'a11': 'x > 30  && x <= 33',
+                            'a12': 'x > 33  && x < 36',
+                            'a13': 'x > 36  && x <= 39',
+                            'a14': 'x > 39  && x <= 42',
+                            'a15': 'x > 42  && x <= 45',
+                            'a16': 'x > 45  && x <= 48',
+                            'a17': 'x > 48  && x <= 51',
+                            'a18': 'x > 51  && x <= 54',
+                            'a19': 'x > 54  && x <= 57',
+                            'a20': 'x > 57  && x <= 60',
+                            'a21': 'x > 60  && x <= 63',
+                            'a22': 'x > 63  && x <= 66',
+                            'a23': 'x > 66  && x <= 69',
+                            'a24': 'x > 69  && x <= 72',
+                            'a25': 'x > 72  && x <= 75',
+                            'a252': 'x > 75  && x <= 81',
+                            //'a26': 'x > 78  && x <= 81',
+                            'a262': 'x > 81  && x <= 84',
+                            'a27': 'x > 84  && x <= 87',
+                            'a28': 'x > 87  && x <= 90',
+                            'a29': 'x > 90  && x <= 93',
+                            'a30': 'x > 83 && x <= 96',
+                            'a31': 'x > 96  && x <= 99',
+
+                        }
+                        }];
+                    
+                }
+                else {
+
+                    coldefs = [...coldefs, {
+                        headerName: key,
+                        field: key,
+                        //aggFunc: 'sum',
+                        enablePivot: true,
+                        
+                        }];
+                    }
+                    }); 
+                
+                
+                console.log(worldview)
+                console.log(product_keys_ag)
+                return coldefs
+                }
+   
+        </script>
+        
+        <!-- AG GRID -->
+        <script>
+            var columnDefs = getColdefs()
+                
+            // specify the data
+            var rowData = worldview;
+                
+            // let the grid know which columns and what data to use
+            var gridOptions = {
+                enableCharts: true,
+                enableRangeSelection: true,
+                rowGroup: true,
+                navigator: { enabled: true },
+                columnDefs: columnDefs,
+                onFirstDataRendered: autoSizeAll ,
+                rowData: rowData,
+                suppressColumnVirtualisation: true,
+                
+            
+            // default ColDef, gets applied to every column
+            defaultColDef: {
+
+                sortable: true,
+                // set the default column width
+                // make every column editable
+                editable: false,
+                // make every column use 'text' filter by default
+                filter: 'agTextColumnFilter',
+                suppressMenu: true,
+                // enable floating filters by default
+                floatingFilter: false,
+                // make columns resizable
+                resizable: true,
+        
+                //width: 500
+
+            },
+            
+            // define specific column types
+            columnTypes: {
+                numberColumn: { filter: 'agNumberColumnFilter' },
+                },
+                
+            }
+
+            function sizeToFit() {
+                gridOptions.api.sizeColumnsToFit();
+                }
+            
+            function autoSizeAll(skipHeader) {
+                var allColumnIds = [];
+                gridOptions.columnApi.getAllColumns().forEach(function (column) {
+                    allColumnIds.push(column.colId);
+                });
+                console.log(allColumnIds)
+                gridOptions.columnApi.autoSizeColumns(allColumnIds, false);
+                gridOptions.columnApi.getColumn("rsdf63").setSort("des")
+                }
+
+            // setup the grid after the page has finished loading
+            document.addEventListener('DOMContentLoaded', function() {
+                var gridDiv = document.querySelector('#myGrid');
+                new agGrid.Grid(gridDiv, gridOptions);
+            });
+        </script>
+
+	</head>
+
+	<body style="margin:0px;">
+        <div id="myGrid" style="height: 500px; margin-top: 100px;" class="ag-theme-balham"></div>
+	</body>
+
+</html>
+
+
