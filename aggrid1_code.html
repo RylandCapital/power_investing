@@ -8,103 +8,60 @@
 
         <style>
             .a1 {
-            background-color:#FF0000;
+            background-color:#f8696b;
             }
             .a2 {
-            background-color: #FF1100;
+            background-color: #f87a6e;
             }
             .a3 {
-            background-color: #FF2200;
+            background-color: #f98a71;
             }
             .a4 {
-            background-color:#FF3300;
+            background-color:#fa9a74;
             }
             .a5 {
-            background-color: #FF4400;
+            background-color: #fbaa77;
             }
             .a6 {
-            background-color: #FF5500;
+            background-color: #fcbb7a;
             }
             .a7 {
-            background-color:#FF6600;
+            background-color:#fdca7d;
             }
             .a8 {
-            background-color: #FF7700;
+            background-color: #feda80;
             }
             .a9 {
-            background-color: #FF8800;
+            background-color: #ffeb84;
             }
             .a10 {
-            background-color:#FF9900;
+            background-color:#ece783;
             }
             .a11 {
-            background-color: #FFAA00;
+            background-color: #d8e082;
             }
             .a12 {
-            background-color: #FFAB00;
+            background-color: #c5db81;
             }
             .a13 {
-            background-color:#FFCC00;
+            background-color:#b2d580;
             }
             .a14 {
-            background-color: #FFDD00;
+            background-color: #9ecf7f;
             }
             .a15 {
-            background-color: #FFEE00;
+            background-color: #89ca7e;
             }
             .a16 {
-            background-color:#FFFF00;
+            background-color:#77c47d;
             }
             .a17 {
-            background-color: #EEFF00;
+            background-color: #63be7b;
             }
-            .a18 {
-            background-color: #DDFF00;
-            }
-            .a19 {
-            background-color:#CCFF00;
-            }
-            .a20 {
-            background-color: #CBFF00;
-            }
-            .a21 {
-            background-color: #CCFF00;
-            }
-            .a22 {
-            background-color: #BBFF00;
-            }
-            .a23 {
-            background-color: #ABFF00;
-            }
-            .a24 {
-            background-color: #AAFF00;
-            }
-            .a25 {
-            background-color: #88FF00;
-            }
-            .a26 {
-            background-color: #77FF00;
-            }
-            .a27 {
-            background-color:#66FF00;
-            }
-            .a28 {
-            background-color: #55FF00;
-            }
-            .a29 {
-            background-color: #44FF00;
-            }
-            .a30 {
-            background-color: #33FF00;
-            }
-            .a31 {
-            background-color: #11FF00;
-            }
-            .a252 {
-            background-color: #82FF00;
-            }
-            .a262 {
-            background-color: #60FF00;
+
+            .img {
+                width: 56px;
+                height: 56px;
             }
         </style>
         
@@ -151,39 +108,56 @@
                         //aggFunc: 'sum',
                         enablePivot: true,
                         cellClassRules: {
-                            'a1': 'x <= 3',
-                            'a2': 'x > 3  && x <= 6',
-                            'a3': 'x > 6  && x <= 9',
-                            'a4': 'x > 9  && x <= 12',
-                            'a5': 'x > 12  && x <= 15',
-                            'a6': 'x > 15  && x <= 18',
-                            'a7': 'x > 18  && x <= 21',
-                            'a8': 'x > 21  && x <= 24',
-                            'a9': 'x > 24  && x <= 27',
-                            'a10': 'x > 27  && x <= 30',
-                            'a11': 'x > 30  && x <= 33',
-                            'a12': 'x > 33  && x <= 36',
-                            'a13': 'x > 36  && x <= 39',
-                            'a14': 'x > 39  && x <= 42',
-                            'a15': 'x > 42  && x <= 45',
-                            'a16': 'x > 45  && x <= 48',
-                            'a17': 'x > 48  && x <= 51',
-                            'a18': 'x > 51  && x <= 54',
-                            'a19': 'x > 54  && x <= 57',
-                            'a20': 'x > 57  && x <= 60',
-                            'a21': 'x > 60  && x <= 63',
-                            'a22': 'x > 63  && x <= 66',
-                            'a23': 'x > 66  && x <= 69',
-                            'a24': 'x > 69  && x <= 72',
-                            'a25': 'x > 72  && x <= 75',
-                            'a252': 'x > 75  && x <= 81',
+                            'a1': 'x <= 6',
+                            'a2': 'x > 6  && x <= 12',
+                            'a3': 'x > 12  && x <= 18',
+                            'a4': 'x > 18  && x <= 24',
+                            'a5': 'x > 24  && x <= 30',
+                            'a6': 'x > 30  && x <= 36',
+                            'a7': 'x > 36  && x <= 42',
+                            'a8': 'x > 42  && x <= 48',
+                            'a9': 'x > 48  && x <= 54',
+                            'a10': 'x > 54  && x <= 60',
+                            'a11': 'x > 60  && x <= 66',
+                            'a12': 'x > 66  && x <= 72',
+                            'a13': 'x > 72  && x <= 78',
+                            'a14': 'x > 78  && x <= 84',
+                            'a15': 'x > 84  && x <= 90',
+                            'a16': 'x > 90  && x <= 96',
+                            'a17': 'x > 96',
+                            //'a1': 'x <= 3',
+                            //'a2': 'x > 3  && x <= 6',
+                            //'a3': 'x > 6  && x <= 9',
+                            //'a4': 'x > 9  && x <= 12',
+                            //'a5': 'x > 12  && x <= 15',
+                            //'a6': 'x > 15  && x <= 18',
+                            //'a7': 'x > 18  && x <= 21',
+                            //'a8': 'x > 21  && x <= 24',
+                            //'a9': 'x > 24  && x <= 27',
+                            //'a10': 'x > 27  && x <= 30',
+                            //'a11': 'x > 30  && x <= 33',
+                            //'a12': 'x > 33  && x <= 36',
+                            //'a13': 'x > 36  && x <= 39',
+                            //'a14': 'x > 39  && x <= 42',
+                            //'a15': 'x > 42  && x <= 45',
+                            //'a16': 'x > 45  && x <= 48',
+                            //'a17': 'x > 48  && x <= 51',
+                            //'a18': 'x > 51  && x <= 54',
+                            //'a19': 'x > 54  && x <= 57',
+                            //'a20': 'x > 57  && x <= 60',
+                            //'a21': 'x > 60  && x <= 63',
+                            //'a22': 'x > 63  && x <= 66',
+                            //'a23': 'x > 66  && x <= 69',
+                            //'a24': 'x > 69  && x <= 72',
+                            //'a25': 'x > 72  && x <= 75',
+                            //'a252': 'x > 75  && x <= 81',
                             //'a26': 'x > 78  && x <= 81',
-                            'a262': 'x > 81  && x <= 84',
-                            'a27': 'x > 84  && x <= 87',
-                            'a28': 'x > 87  && x <= 90',
-                            'a29': 'x > 90  && x <= 93',
-                            'a30': 'x > 83 && x <= 96',
-                            'a31': 'x > 96  && x <= 99',
+                            //'a262': 'x > 81  && x <= 84',
+                            //'a27': 'x > 84  && x <= 87',
+                            //'a28': 'x > 87  && x <= 90',
+                            //'a29': 'x > 90  && x <= 93',
+                            //'a30': 'x > 83 && x <= 96',
+                            //'a31': 'x > 96  && x <= 99',
 
                         }
                         }];}
@@ -196,41 +170,69 @@
                         //aggFunc: 'sum',
                         enablePivot: true,
                         cellClassRules: {
-                            'a1': 'x <= 3',
-                            'a2': 'x > 3  && x <= 6',
-                            'a3': 'x > 6  && x <= 9',
-                            'a4': 'x > 9  && x <= 12',
-                            'a5': 'x > 12  && x <= 15',
-                            'a6': 'x > 15  && x <= 18',
-                            'a7': 'x > 18  && x <= 21',
-                            'a8': 'x > 21  && x <= 24',
-                            'a9': 'x > 24  && x <= 27',
-                            'a10': 'x > 27  && x <= 30',
-                            'a11': 'x > 30  && x <= 33',
-                            'a12': 'x > 33  && x < 36',
-                            'a13': 'x > 36  && x <= 39',
-                            'a14': 'x > 39  && x <= 42',
-                            'a15': 'x > 42  && x <= 45',
-                            'a16': 'x > 45  && x <= 48',
-                            'a17': 'x > 48  && x <= 51',
-                            'a18': 'x > 51  && x <= 54',
-                            'a19': 'x > 54  && x <= 57',
-                            'a20': 'x > 57  && x <= 60',
-                            'a21': 'x > 60  && x <= 63',
-                            'a22': 'x > 63  && x <= 66',
-                            'a23': 'x > 66  && x <= 69',
-                            'a24': 'x > 69  && x <= 72',
-                            'a25': 'x > 72  && x <= 75',
-                            'a252': 'x > 75  && x <= 81',
+                            'a1': 'x <= 6',
+                            'a2': 'x > 6  && x <= 12',
+                            'a3': 'x > 12  && x <= 18',
+                            'a4': 'x > 18  && x <= 24',
+                            'a5': 'x > 24  && x <= 30',
+                            'a6': 'x > 30  && x <= 36',
+                            'a7': 'x > 36  && x <= 42',
+                            'a8': 'x > 42  && x <= 48',
+                            'a9': 'x > 48  && x <= 54',
+                            'a10': 'x > 54  && x <= 60',
+                            'a11': 'x > 60  && x <= 66',
+                            'a12': 'x > 66  && x <= 72',
+                            'a13': 'x > 72  && x <= 78',
+                            'a14': 'x > 78  && x <= 84',
+                            'a15': 'x > 84  && x <= 90',
+                            'a16': 'x > 90  && x <= 96',
+                            'a17': 'x > 96',
+                            //'a1': 'x <= 3',
+                            //'a2': 'x > 3  && x <= 6',
+                            //'a3': 'x > 6  && x <= 9',
+                            //'a4': 'x > 9  && x <= 12',
+                            //'a5': 'x > 12  && x <= 15',
+                            //'a6': 'x > 15  && x <= 18',
+                            //'a7': 'x > 18  && x <= 21',
+                            //'a8': 'x > 21  && x <= 24',
+                            //'a9': 'x > 24  && x <= 27',
+                            //'a10': 'x > 27  && x <= 30',
+                            //'a11': 'x > 30  && x <= 33',
+                            //'a12': 'x > 33  && x <= 36',
+                            //'a13': 'x > 36  && x <= 39',
+                            //'a14': 'x > 39  && x <= 42',
+                            //'a15': 'x > 42  && x <= 45',
+                            //'a16': 'x > 45  && x <= 48',
+                            //'a17': 'x > 48  && x <= 51',
+                            //'a18': 'x > 51  && x <= 54',
+                            //'a19': 'x > 54  && x <= 57',
+                            //'a20': 'x > 57  && x <= 60',
+                            //'a21': 'x > 60  && x <= 63',
+                            //'a22': 'x > 63  && x <= 66',
+                            //'a23': 'x > 66  && x <= 69',
+                            //'a24': 'x > 69  && x <= 72',
+                            //'a25': 'x > 72  && x <= 75',
+                            //'a252': 'x > 75  && x <= 81',
                             //'a26': 'x > 78  && x <= 81',
-                            'a262': 'x > 81  && x <= 84',
-                            'a27': 'x > 84  && x <= 87',
-                            'a28': 'x > 87  && x <= 90',
-                            'a29': 'x > 90  && x <= 93',
-                            'a30': 'x > 83 && x <= 96',
-                            'a31': 'x > 96  && x <= 99',
+                            //'a262': 'x > 81  && x <= 84',
+                            //'a27': 'x > 84  && x <= 87',
+                            //'a28': 'x > 87  && x <= 90',
+                            //'a29': 'x > 90  && x <= 93',
+                            //'a30': 'x > 83 && x <= 96',
+                            //'a31': 'x > 96  && x <= 99',
 
                         }
+                        }];
+                    
+                }
+                else if (key === 'Daily%' || key === 'Week%' || key === 'Mo%' || key === 'Qtr%') {
+                    
+                    coldefs = [...coldefs, {
+                        headerName: key,
+                        field: key,
+                        //aggFunc: 'sum',
+                        enablePivot: true,
+                        cellRenderer: deltaIndicator
                         }];
                     
                 }
@@ -249,9 +251,11 @@
                 
                 console.log(worldview)
                 console.log(product_keys_ag)
+                console.log(coldefs)
                 return coldefs
+                
                 }
-   
+        
         </script>
         
         <!-- AG GRID -->
@@ -310,8 +314,32 @@
                 });
                 console.log(allColumnIds)
                 gridOptions.columnApi.autoSizeColumns(allColumnIds, false);
-                gridOptions.columnApi.getColumn("rsdf63").setSort("des")
                 }
+
+
+            function deltaIndicator(params) {
+                var element = document.createElement("span");
+                var imageElement = document.createElement("img");
+                
+                // visually indicate if this months value is higher or lower than last months value
+                if (params.value > .10) {
+                    imageElement.src = "https://github.com/RylandCapital/power_investing/blob/main/up-arrow%20blue.png?raw=true";
+                    imageElement.height = 12
+                    imageElement.width = 12
+                } else if (params.value <= .10 & params.value >= -.10) {
+                    imageElement.src = "https://github.com/RylandCapital/power_investing/blob/main/up-arrow%20yellow.png?raw=true";
+                    imageElement.height = 12
+                    imageElement.width = 12
+                } else {
+                    imageElement.src = "https://github.com/RylandCapital/power_investing/blob/main/up-arrow%20redtest.png?raw=true";
+                    imageElement.height = 12
+                    imageElement.width = 12
+                }
+
+                element.appendChild(imageElement);
+                element.appendChild(document.createTextNode(params.value));
+                return element;
+            }
 
             // setup the grid after the page has finished loading
             document.addEventListener('DOMContentLoaded', function() {
