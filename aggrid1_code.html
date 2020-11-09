@@ -58,6 +58,12 @@
             .a17 {
             background-color: #63be7b;
             }
+            .b1 {
+            background-color:#ffc7ce;
+            }
+            .b2 {
+            background-color: #c7efd0;
+            }
 
             .img {
                 width: 56px;
@@ -236,6 +242,29 @@
                         }];
                     
                 }
+                else if (key === 'RSMovers-21' || key === 'RSMovers') {
+                    
+                    coldefs = [...coldefs, {
+                        headerName: key,
+                        field: key,
+                        //aggFunc: 'sum',
+                        enablePivot: true,
+                        cellClassRules: {
+                            'b1': 'x <= -20',
+                            'b2': 'x >= 20',
+
+                        }
+                        }];        
+                }
+                else if (key === 'Symbol') {
+                    
+                    coldefs = [...coldefs, {
+                        headerName: key,
+                        field: key,
+                        //aggFunc: 'sum',
+                        enablePivot: true,
+                        }];        
+                } 
                 else {
 
                     coldefs = [...coldefs, {
@@ -247,13 +276,8 @@
                         }];
                     }
                     }); 
-                
-                
-                console.log(worldview)
-                console.log(product_keys_ag)
-                console.log(coldefs)
+
                 return coldefs
-                
                 }
         
         </script>
@@ -312,15 +336,17 @@
                 gridOptions.columnApi.getAllColumns().forEach(function (column) {
                     allColumnIds.push(column.colId);
                 });
-                console.log(allColumnIds)
                 gridOptions.columnApi.autoSizeColumns(allColumnIds, false);
                 }
 
+            function linkRender(params) {
+             return '<a href="https://finance.yahoo.com/quote/' + params.value + '"' + ' target="_blank" rel="noopener">' + params.value+'</a>'
+
+            }
 
             function deltaIndicator(params) {
                 var element = document.createElement("span");
                 var imageElement = document.createElement("img");
-                
                 // visually indicate if this months value is higher or lower than last months value
                 if (params.value > .10) {
                     imageElement.src = "https://github.com/RylandCapital/power_investing/blob/main/up-arrow%20blue.png?raw=true";
