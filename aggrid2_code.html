@@ -71,7 +71,6 @@
         <!-- AG GRID -->
         <script>
             var columnDefs2 = getColdefs2()
-            console.log(columnDefs)
                 
             // specify the data
             var rowData2 = final_json;
@@ -86,6 +85,24 @@
                 onFirstDataRendered: autoSizeAll2 ,
                 rowData: rowData2,
                 suppressColumnVirtualisation: true,
+
+                defaultColDef: {
+
+                sortable: true,
+                // set the default column width
+                // make every column editable
+                editable: false,
+                // make every column use 'text' filter by default
+                filter: 'agTextColumnFilter',
+                suppressMenu: true,
+                // enable floating filters by default
+                floatingFilter: false,
+                // make columns resizable
+                resizable: true,
+
+                //width: 500
+
+                },
             // define specific column types
             columnTypes: {
                 numberColumn: { filter: 'agNumberColumnFilter' },
