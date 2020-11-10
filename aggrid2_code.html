@@ -1,0 +1,118 @@
+<html>
+
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+        <script src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.js"></script>
+        <script src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.js"></script>
+
+        <!-- Data Pull/Scrub -->
+        <script type="text/javascript">
+        
+
+            function Get2(yourUrl){
+                var Httpreq = new XMLHttpRequest(); // a new request
+                Httpreq.open("GET",yourUrl,false);
+                Httpreq.send(null);
+                return Httpreq.responseText;          
+            }
+            
+            // ag grid data pull and format
+            var grid_json = JSON.parse(Get2('http://18.216.242.3/aggrid2'));
+            console.log(grid_json)
+            const product_keys_ag2 = Object.keys(grid_json[0]).filter(function(col){
+            return col;
+            });
+
+            final_json = []
+            product_keys_ag2.forEach((key) => {
+                grid_json.forEach((item) => {
+                if (key !== 'sector' & key !== 'Indicator' & key !== '_id') {
+                item[key] = Number(Number(item[key]).toFixed(2))
+                }
+            })
+            });
+
+            //filter the right page/sector/subsector
+            grid_json.forEach((item) => {
+                if (item['sector'] == 'Financials') {
+                    final_json.push(item)
+                }
+            })
+         
+
+            console.log(final_json)
+            //this function takes raw AGgrid json and makes it ready
+            function getColdefs2() {
+
+                let  coldefs = []
+                const product_keys_ag2 = Object.keys(final_json[0]).filter(function(col){
+                if (col!== '_id' & col !== 'sector') {
+                    return  col;
+                }
+                });
+
+                product_keys_ag2.forEach((key) => {  
+                    coldefs = [...coldefs, {
+                        headerName: key,
+                        field: key,
+                        //aggFunc: 'sum',
+                        enablePivot: true,
+                        cellClassRules: {    
+
+                        }
+                        }];   
+                })
+                return coldefs
+            }
+
+
+        </script>
+        
+        <!-- AG GRID -->
+        <script>
+            var columnDefs2 = getColdefs2()
+            console.log(columnDefs)
+                
+            // specify the data
+            var rowData2 = final_json;
+                
+            // let the grid know which columns and what data to use
+            var gridOptions2 = {
+                enableCharts: true,
+                enableRangeSelection: true,
+                rowGroup: true,
+                navigator: { enabled: true },
+                columnDefs: columnDefs2,
+                onFirstDataRendered: autoSizeAll2 ,
+                rowData: rowData2,
+                suppressColumnVirtualisation: true,
+            // define specific column types
+            columnTypes: {
+                numberColumn: { filter: 'agNumberColumnFilter' },
+                },      
+            }
+
+            
+            function autoSizeAll2(skipHeader) {
+                var allColumnIds = [];
+                gridOptions2.columnApi.getAllColumns().forEach(function (column) {
+                    allColumnIds.push(column.colId);
+                });
+                gridOptions2.columnApi.autoSizeColumns(allColumnIds, false);
+                }
+
+            // setup the grid after the page has finished loading
+            document.addEventListener('DOMContentLoaded', function() {
+                var gridDiv2 = document.querySelector('#myGrid2');
+                new agGrid.Grid(gridDiv2, gridOptions2);
+            });
+        </script>
+
+
+	
+        <div id="myGrid2" style="height: 500px; margin-top: 100px;" class="ag-theme-balham"></div>
+	
+
+</html>
+
+
