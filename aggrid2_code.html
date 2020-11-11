@@ -110,19 +110,46 @@
             }
 
             
+            function sizeToFit() {
+                gridOptions.api.sizeColumnsToFit();
+                }
+            
             function autoSizeAll2(skipHeader) {
                 var allColumnIds = [];
-                gridOptions2.columnApi.getAllColumns().forEach(function (column) {
+                gridOptions.columnApi.getAllColumns().forEach(function (column) {
                     allColumnIds.push(column.colId);
                 });
-                gridOptions2.columnApi.autoSizeColumns(allColumnIds, false);
+                gridOptions.columnApi.autoSizeColumns(allColumnIds, false);
                 }
 
-            // setup the grid after the page has finished loading
-            document.addEventListener('DOMContentLoaded', function() {
-                var gridDiv2 = document.querySelector('#myGrid2');
-                new agGrid.Grid(gridDiv2, gridOptions2);
-            });
+            function linkRender(params) {
+             return '<a href="https://finance.yahoo.com/quote/' + params.value + '"' + ' target="_blank" rel="noopener">' + params.value+'</a>'
+
+            }
+
+            function deltaIndicator(params) {
+                var element = document.createElement("span");
+                var imageElement = document.createElement("img");
+                // visually indicate if this months value is higher or lower than last months value
+                if (params.value > .10) {
+                    imageElement.src = "https://github.com/RylandCapital/power_investing/blob/main/up-arrow%20blue.png?raw=true";
+                    imageElement.height = 12
+                    imageElement.width = 12
+                } else if (params.value <= .10 & params.value >= -.10) {
+                    imageElement.src = "https://github.com/RylandCapital/power_investing/blob/main/up-arrow%20yellow.png?raw=true";
+                    imageElement.height = 12
+                    imageElement.width = 12
+                } else {
+                    imageElement.src = "https://github.com/RylandCapital/power_investing/blob/main/up-arrow%20redtest.png?raw=true";
+                    imageElement.height = 12
+                    imageElement.width = 12
+                }
+
+                element.appendChild(imageElement);
+                element.appendChild(document.createTextNode(params.value));
+                return element;
+            }
+
         </script>
 
 
