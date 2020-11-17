@@ -77,15 +77,20 @@
                 }
             })
          
-
+            console.log(final_json)
             yestMAd = final_json[8]['Yesterday'] < final_json[9]['Yesterday']
             yestMAd_value = final_json[8]['Yesterday']
-            FMAd = final_json[10]['5 Days Ago'] < final_json[9]['5 Days Ago']
+            FMAd = final_json[8]['5 Days Ago'] < final_json[9]['5 Days Ago']
             FMAd_value = final_json[8]['5 Days Ago']
-            TMAd = final_json[10]['21 Days Ago'] < final_json[9]['21 Days Ago']
+            TMAd = final_json[8]['21 Days Ago'] < final_json[9]['21 Days Ago']
             TMAd_value = final_json[8]['21 Days Ago']
-            SMAd = final_json[10]['63 Days Ago'] < final_json[9]['63 Days Ago']
+            SMAd = final_json[8]['63 Days Ago'] < final_json[9]['63 Days Ago']
             SMAd_value = final_json[8]['63 Days Ago']
+
+            yestadviss = final_json[11]['Yesterday']
+            yestadvvol = final_json[13]['Yesterday']
+            yestdeciss = final_json[12]['Yesterday']
+            yestdecvol = final_json[14]['Yesterday']
 
             //this function takes raw AGgrid json and makes it ready
             function getColdefs2() {
@@ -121,20 +126,20 @@
                                     if (params.data.Indicator === 'Breadth Thrust')
                                         return params.value <  .30},
                             'advO8': function(params) { 
-                                    if (params.data.Indicator === 'Advancing Issues'
-                                    || params.data.Indicator === 'Advancing Volume')
+                                    if ((params.data.Indicator === 'Advancing Issues'
+                                    || params.data.Indicator === 'Advancing Volume') && (yestadviss===params.value || yestadvvol===params.value))
                                         return params.value >  .8 & params.value <  .9},
                             'advO9': function(params) { 
-                                    if (params.data.Indicator === 'Advancing Issues'
-                                    || params.data.Indicator === 'Advancing Volume')
+                                    if ((params.data.Indicator === 'Advancing Issues'
+                                    || params.data.Indicator === 'Advancing Volume') && (yestadviss===params.value || yestadvvol===params.value))
                                         return params.value > .9},
                             'decO8': function(params) { 
-                                    if (params.data.Indicator === 'Declining Issues'
-                                    || params.data.Indicator === 'Declining Volume')                    
+                                    if ((params.data.Indicator === 'Declining Issues'
+                                    || params.data.Indicator === 'Declining Volume')  && (yestdeciss===params.value || yestdecvol===params.value))                 
                                         return params.value >  .8 &  params.value < .9},
                             'decO9': function(params) { 
-                                    if (params.data.Indicator === 'Declining Issues'
-                                    || params.data.Indicator === 'Declining Volume')
+                                    if ((params.data.Indicator === 'Declining Issues'
+                                    || params.data.Indicator === 'Declining Volume') && (yestdeciss===params.value || yestdecvol===params.value))
                                         return params.value >  .9},
                             'mccO': function(params) { 
                                     if (params.data.Indicator === 'McClellan Oscillator')
