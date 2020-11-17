@@ -4,7 +4,45 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=Edge">
         <script src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.js"></script>
         <script src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.js"></script>
-
+       
+        <style>
+            .nhnl {
+                background-color: #f8696b;
+                }
+            .thrustU3 {
+                background-color: #f8696b;
+                }
+            .thrustU4 {
+                background-color: #ffc7ce;
+                }
+            .advO8 {
+                background-color: #c7efd0;
+                }
+            .advO9 {
+                background-color: #77c47d;
+                }
+            .decO8 {
+                background-color: #ffc7ce;
+                }
+            .decO9 {
+                background-color: #f8696b;
+                }
+            .mccO {
+                background-color: #f8696b;
+                }
+            .yestmcma {
+                background-color: #f8696b;
+                }
+            .fmcma {
+                background-color: #f8696b;
+                }
+            .tmcma {
+                background-color: #f8696b;
+                }
+            .smcma {
+                background-color: #f8696b;
+                }
+        </style>
         <!-- Data Pull/Scrub -->
         <script type="text/javascript">
         
@@ -40,7 +78,15 @@
             })
          
 
-            console.log(final_json)
+            yestMAd = final_json[8]['Yesterday'] < final_json[9]['Yesterday']
+            yestMAd_value = final_json[8]['Yesterday']
+            FMAd = final_json[10]['5 Days Ago'] < final_json[9]['5 Days Ago']
+            FMAd_value = final_json[8]['5 Days Ago']
+            TMAd = final_json[10]['21 Days Ago'] < final_json[9]['21 Days Ago']
+            TMAd_value = final_json[8]['21 Days Ago']
+            SMAd = final_json[10]['63 Days Ago'] < final_json[9]['63 Days Ago']
+            SMAd_value = final_json[8]['63 Days Ago']
+
             //this function takes raw AGgrid json and makes it ready
             function getColdefs2() {
 
@@ -51,19 +97,100 @@
                 }
                 });
 
-                product_keys_ag2.forEach((key) => {  
-                    coldefs = [...coldefs, {
+
+                product_keys_ag2.forEach((key) => {
+                        if (key !== 'Indicator') {
+
+                        
+                        coldefs = [...coldefs, {
+                            headerName: key,
+                            field: key,
+                            //aggFunc: 'sum',
+                            enablePivot: true,
+                            valueFormatter: cellFormats,
+                            cellClassRules: {   
+                                
+                            'nhnl': function(params) {                  
+                                    if (params.data.Indicator === '253 NH-NL' || params.data.Indicator === '253 NH-NL 10Day MA'
+                                    || params.data.Indicator === '253 NH-NL 30Day MA')
+                                        return params.value <  0 },
+                            'thrustU4': function(params) { 
+                                    if (params.data.Indicator === 'Breadth Thrust')
+                                        return params.value <  .40 & params.value >  .30},
+                            'thrustU3': function(params) { 
+                                    if (params.data.Indicator === 'Breadth Thrust')
+                                        return params.value <  .30},
+                            'advO8': function(params) { 
+                                    if (params.data.Indicator === 'Advancing Issues'
+                                    || params.data.Indicator === 'Advancing Volume')
+                                        return params.value >  .8 & params.value <  .9},
+                            'advO9': function(params) { 
+                                    if (params.data.Indicator === 'Advancing Issues'
+                                    || params.data.Indicator === 'Advancing Volume')
+                                        return params.value > .9},
+                            'decO8': function(params) { 
+                                    if (params.data.Indicator === 'Declining Issues'
+                                    || params.data.Indicator === 'Declining Volume')                    
+                                        return params.value >  .8 &  params.value < .9},
+                            'decO9': function(params) { 
+                                    if (params.data.Indicator === 'Declining Issues'
+                                    || params.data.Indicator === 'Declining Volume')
+                                        return params.value >  .9},
+                            'mccO': function(params) { 
+                                    if (params.data.Indicator === 'McClellan Oscillator')
+                                        return params.value <  0},
+                            'yestmcma': function(params) { 
+                                    if (params.data.Indicator === 'McClellan Summation' 
+                                    & yestMAd === true & yestMAd_value === params.value)
+                                        return true},
+                            'fmcma': function(params) { 
+                                    if (params.data.Indicator === 'McClellan Summation' 
+                                    & FMAd === true & FMAd_value === params.value)
+                                        return true},
+                            'tmcma': function(params) { 
+                                    if (params.data.Indicator === 'McClellan Summation' 
+                                    & TMAd === true & TMAd_value === params.value)
+                                        return true},
+                            'smcma': function(params) { 
+                                    if (params.data.Indicator === 'McClellan Summation' 
+                                    & SMAd === true & SMAd_value === params.value)
+                                        return true}
+
+                        }}];
+                
+                        }
+
+                        else {
+
+                        coldefs = [...coldefs, {
                         headerName: key,
                         field: key,
                         //aggFunc: 'sum',
                         enablePivot: true,
-                        cellClassRules: {    
+                        cellClassRules: {   
+                        }
+                        }];
 
                         }
-                        }];   
-                })
+                    })
+                        
                 return coldefs
             }
+
+            function cellFormats(params) {
+                if (params.data.Indicator === '20 MA Breadth' 
+                || params.data.Indicator === '50 MA Breadth'
+                || params.data.Indicator === '200 MA Breadth'
+                || params.data.Indicator === 'Advancing Issues'
+                || params.data.Indicator === 'Advancing Volume'
+                || params.data.Indicator === 'Declining Issues'
+                || params.data.Indicator === 'Declining Volume'
+                || params.data.Indicator === 'Breadth Thrust') {
+                                        return  (params.value*100).toFixed(0) + '%';
+                                    }
+
+                }
+            
 
 
         </script>
