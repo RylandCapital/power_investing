@@ -4,7 +4,6 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0">
 		<meta http-equiv="X-UA-Compatible" content="IE=Edge">
         <script src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.js"></script>
-        <script src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.js"></script>
 
         <style>
             .a1 {
@@ -69,6 +68,37 @@
                 width: 56px;
                 height: 56px;
             }
+
+            .button {
+                width: auto;
+                height: auto;
+                text-align: center;
+                font-size: .7rem;
+                padding: 2px 5px;
+                color: black;
+                display: inline-block;
+                margin: 4px 2px;
+                border-radius: 5px;
+                border-color: black;
+            }
+            
+            .button:hover {
+              background-color: #F8F8F8;
+              color: black;
+            }
+            
+            .button:active {
+              background-color: #F8F8F8;
+              box-shadow: 0 5px #666;
+              transform: translateY(4px);
+            }
+
+
+
+
+
+
+
         </style>
         
         <!-- Data Pull/Scrub -->
@@ -374,12 +404,35 @@
             });
         </script>
 
-	</head>
 
-	<body style="margin:0px;">
+       
+
+    </head>
+
+
+    <body style="margin:2px;">
+        
+      <div>
+        <button class="button">3 Month RS</button>
+        <button class="button">6 Month RS</button>
+        <button class="button">12 Month RS</button>
+      </div>
+      
+      <div id="myGrid" style="height: 500px;" class="ag-theme-balham"></div>
+    
+    </body>
+    </html>
+
+    <!-- <body style="margin:0px;">
+        <div class="test-container">
+        <div>
+            <button>Set Columns with Initials</button>
+            <button>Remove Columns</button>
+          </div>
         <div id="myGrid" style="height: 500px; margin-top: 100px;" class="ag-theme-balham"></div>
+    </div>
 	</body>
 
-</html>
+</html> 
 
 
