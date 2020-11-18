@@ -42,6 +42,9 @@
             .smcma {
                 background-color: #f8696b;
                 }
+            .maBreadthU5 {
+                background-color: #ffc7ce;
+                }
         </style>
         <!-- Data Pull/Scrub -->
         <script type="text/javascript">
@@ -91,6 +94,10 @@
             yestadvvol = final_json[13]['Yesterday']
             yestdeciss = final_json[12]['Yesterday']
             yestdecvol = final_json[14]['Yesterday']
+
+            ma20yest = final_json[4]['Yesterday']
+            ma50yest = final_json[5]['Yesterday']
+            ma200yest = final_json[6]['Yesterday']
 
             //this function takes raw AGgrid json and makes it ready
             function getColdefs2() {
@@ -159,7 +166,12 @@
                             'smcma': function(params) { 
                                     if (params.data.Indicator === 'McClellan Summation' 
                                     & SMAd === true & SMAd_value === params.value)
-                                        return true}
+                                        return true},
+                            'maBreadthU5': function(params) { 
+                                    if ((params.data.Indicator === '20 MA Breadth' || params.data.Indicator === '50 MA Breadth'
+                                    || params.data.Indicator === '200 MA Breadth')  && (ma20yest===params.value || 
+                                    ma50yest===params.value || ma200yest===params.value))
+                                        return params.value <  .05}
 
                         }}];
                 
