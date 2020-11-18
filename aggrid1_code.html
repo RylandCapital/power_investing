@@ -69,6 +69,12 @@
                 height: 56px;
             }
 
+            .ag-theme-balham .ag-header-group-cell-label {
+                display: flex;
+  align-items: center;
+  justify-content: center; ;
+}
+
             .button {
                 width: auto;
                 height: auto;
@@ -80,26 +86,27 @@
                 margin: 4px 2px;
                 border-radius: 5px;
                 border-color: black;
+                border-width: 2px;
+                background-color: #f5f7f7
             }
             
             .button:hover {
-              background-color: #F8F8F8;
+              background-color: #b9d7fb;
               color: black;
             }
             
             .button:active {
-              background-color: #F8F8F8;
+              background-color: #f5f7f7;
               box-shadow: 0 5px #666;
-              transform: translateY(4px);
+              transform: translateY(10px);
             }
 
-
-
-
-
-
-
+            .button:focus{
+              background-color: #f5f7f7;
+              color: black;
+            }
         </style>
+        
         
         <!-- Data Pull/Scrub -->
         <script type="text/javascript">
@@ -307,7 +314,8 @@
                     }
                     }); 
 
-                return coldefs
+                return [{headerName:'12 Month RS', headerClass : 'grid-cell-centered',
+                children: coldefs}]
                 }
         
         </script>
@@ -418,7 +426,7 @@
         <button class="button">12 Month RS</button>
       </div>
       
-      <div id="myGrid" style="height: 500px;" class="ag-theme-balham"></div>
+      <div id="myGrid" style="height: 500px; margin-top: 5px" class="ag-theme-balham"></div>
     
     </body>
     </html>
