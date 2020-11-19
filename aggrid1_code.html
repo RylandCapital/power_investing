@@ -120,26 +120,42 @@
             }
             
             // ag grid data pull and scrub
-            var worldview = JSON.parse(Get('http://18.216.242.3/aggrid/world'));
-            const product_keys_ag = Object.keys(worldview[0]).filter(function(number){
+            var worldview = JSON.parse(Get('http://18.216.242.3/aggrid/financials'));
+            worldviewtfs = Object.keys(worldview["0"]).slice(0,3)
+            console.log(worldview)
+            console.log(Object.keys(worldview))
+            console.log(worldview["0"])
+            console.log(Object.keys(worldview["0"]).slice(0,3))
+            
+            const product_keys_ag = Object.keys(worldview["0"][3][0]).filter(function(number){
             return number;
             });
+            
 
+            worldviewtfs.forEach((tf) => {
             product_keys_ag.forEach((key) => {
-                worldview.forEach((item) => {
+                worldview["0"][tf].forEach((item) => {
+                console.log(item)
                 if (key !== 'Description' & key !== 'Symbol') {
                 item[key] = Number(Number(item[key]).toFixed(2))
                 }
             })
+            })
             });
-            //this function takes raw AGgrid json and makes it ready
+        </script>
+        
+        <!-- AG GRID -->
+        <script>
+            
             function getColdefs() {
-
+                let coldefs_all = []
+                worldviewtfs = Object.keys(worldview["0"]).slice(0,3)
+                worldviewtfs.forEach((tf) => {
                 let  coldefs = []
-                const product_keys_ag = Object.keys(worldview[0]).filter(function(number){
-                if (number !== '_id' & number !== 'date') {
+                const product_keys_ag = Object.keys(worldview["0"][3][0]).filter(function(number){
+                    if (number !== '_id' & number !== 'date') {
                     return  number;
-                }
+                    }
                 });
 
                 product_keys_ag.forEach((key) => {
@@ -312,20 +328,22 @@
                         
                         }];
                     }
-                    }); 
+                    
+                  
+                }); 
 
-                return [{headerName:'12 Month RS', headerClass : 'grid-cell-centered',
-                children: coldefs}]
-                }
-        
-        </script>
-        
-        <!-- AG GRID -->
-        <script>
-            var columnDefs = getColdefs()
+                coldefs_all.push([{headerName: String(tf)+' Month RS', headerClass : 'grid-cell-centered',
+                children: coldefs}])
+                
+                })
+                console.log(coldefs_all)
+                return coldefs_all
+            }
+            
+            var columnDefs = getColdefs()[2]
                 
             // specify the data
-            var rowData = worldview;
+            var rowData = worldview["0"][3];
                 
             // let the grid know which columns and what data to use
             var gridOptions = {
@@ -382,6 +400,28 @@
 
             }
 
+            function threemonth() {
+                data = getColdefs()[0]
+                gridOptions.api.setColumnDefs(data);
+                gridOptions.api.setRowData(worldview["0"][3]);
+                }
+
+            function sixmonth() {
+                data = getColdefs()[1]
+                gridOptions.api.setColumnDefs(data);
+                gridOptions.api.setRowData(worldview["0"][6]);
+                }
+
+            function twelvemonth() {
+                data = getColdefs()[2]
+                gridOptions.api.setColumnDefs(data);
+                gridOptions.api.setRowData(worldview["0"][12]);
+                }
+
+            function onBtRemove() {
+                gridOptions.api.setColumnDefs([]);
+                }
+
             function deltaIndicator(params) {
                 var element = document.createElement("span");
                 var imageElement = document.createElement("img");
@@ -421,9 +461,9 @@
     <body style="margin:2px;">
         
       <div>
-        <button class="button">3 Month RS</button>
-        <button class="button">6 Month RS</button>
-        <button class="button">12 Month RS</button>
+        <button onclick="threemonth()" class="button">3 Month RS</button>
+        <button onclick="sixmonth()" class="button">6 Month RS</button>
+        <button onclick="twelvemonth()" class="button">12 Month RS</button>
       </div>
       
       <div id="myGrid" style="height: 500px; margin-top: 5px" class="ag-theme-balham"></div>
