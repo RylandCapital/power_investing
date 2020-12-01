@@ -422,8 +422,8 @@
                 gridOptions3.api.setColumnDefs([]);
                 }
 
-            function onFilterTextBoxChanged() {
-                gridOptions.api.setQuickFilter(document.getElementById('filter-text-box').value);
+            function onFilterTextBoxChanged3() {
+                gridOptions3.api.setQuickFilter(document.getElementById('filter-text-box2').value);
             }
 
             function deltaIndicator(params) {
@@ -465,7 +465,7 @@
         <button onclick="threemonth3()" class="button">3 Month RS</button>
         <button onclick="sixmonth3()" class="button">6 Month RS</button>
         <button onclick="twelvemonth3()" class="button">12 Month RS</button>
-        <input  style="width: 200px; height: 25px; font-size: .7rem; padding: 2px 5px;" type="text" id="filter-text-box" placeholder="Ticker..." length=10 oninput="onFilterTextBoxChanged()"/>
+        <input  style="width: 200px; height: 25px; font-size: .7rem; padding: 2px 5px;" type="text" id="filter-text-box2" placeholder="Ticker..." length=10 oninput="onFilterTextBoxChanged3()"/>
       </div>
       
       <div id="myGrid3" style="height: 500px; margin-top: 5px" class="ag-theme-balham"></div>
