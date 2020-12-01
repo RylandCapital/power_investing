@@ -71,9 +71,9 @@
 
             .ag-theme-balham .ag-header-group-cell-label {
                 display: flex;
-  align-items: center;
-  justify-content: center; ;
-}
+                align-items: center;
+                justify-content: center; ;
+                }
 
             .button {
                 width: auto;
@@ -83,7 +83,7 @@
                 padding: 2px 5px;
                 color: black;
                 display: inline-block;
-                margin: 4px 2px;
+                margin: 0px 0px;
                 border-radius: 5px;
                 border-color: black;
                 border-width: 2px;
@@ -289,8 +289,6 @@
                     coldefs = [...coldefs, {
                         headerName: key,
                         field: key,
-                        //aggFunc: 'sum',
-                        enablePivot: true,
                         cellRenderer: deltaIndicator
                         }];
                     
@@ -300,8 +298,6 @@
                     coldefs = [...coldefs, {
                         headerName: key,
                         field: key,
-                        //aggFunc: 'sum',
-                        enablePivot: true,
                         cellClassRules: {
                             'b1': 'x <= -20',
                             'b2': 'x >= 20',
@@ -314,18 +310,22 @@
                     coldefs = [...coldefs, {
                         headerName: key,
                         field: key,
-                        //aggFunc: 'sum',
-                        enablePivot: true,
+                        pinned: 'left',
                         }];        
                 } 
+                else if (key === 'Description') {
+                    
+                    coldefs = [...coldefs, {
+                        headerName: key,
+                        field: key,
+                        pinned: 'left'
+                        }];        
+                }
                 else {
 
                     coldefs = [...coldefs, {
                         headerName: key,
                         field: key,
-                        //aggFunc: 'sum',
-                        enablePivot: true,
-                        
                         }];
                     }
                     
@@ -340,7 +340,7 @@
                 return coldefs_all
             }
             
-            var columnDefs = getColdefs()[2]
+            var columnDefs = getColdefs()[0]
                 
             // specify the data
             var rowData = worldview["0"][3];
@@ -355,31 +355,20 @@
                 onFirstDataRendered: autoSizeAll ,
                 rowData: rowData,
                 suppressColumnVirtualisation: true,
+
                 
             
             // default ColDef, gets applied to every column
             defaultColDef: {
 
                 sortable: true,
-                // set the default column width
-                // make every column editable
                 editable: false,
-                // make every column use 'text' filter by default
-                filter: 'agTextColumnFilter',
-                suppressMenu: true,
-                // enable floating filters by default
-                floatingFilter: false,
-                // make columns resizable
                 resizable: true,
+
         
                 //width: 500
 
             },
-            
-            // define specific column types
-            columnTypes: {
-                numberColumn: { filter: 'agNumberColumnFilter' },
-                },
                 
             }
 
@@ -418,9 +407,10 @@
                 gridOptions.api.setRowData(worldview["0"][12]);
                 }
 
-            function onBtRemove() {
-                gridOptions.api.setColumnDefs([]);
-                }
+            function onFilterTextBoxChanged() {
+                gridOptions.api.setQuickFilter(document.getElementById('filter-text-box').value);
+            }
+
 
             function deltaIndicator(params) {
                 var element = document.createElement("span");
@@ -452,9 +442,6 @@
             });
         </script>
 
-
-       
-
     </head>
 
 
@@ -464,23 +451,12 @@
         <button onclick="threemonth()" class="button">3 Month RS</button>
         <button onclick="sixmonth()" class="button">6 Month RS</button>
         <button onclick="twelvemonth()" class="button">12 Month RS</button>
+        <input  style="width: 200px; height: 25px; font-size: .7rem; padding: 2px 5px;" type="text" id="filter-text-box" placeholder="Ticker..." length=10 oninput="onFilterTextBoxChanged()"/>
+
       </div>
-      
-      <div id="myGrid" style="height: 500px; margin-top: 5px" class="ag-theme-balham"></div>
+      <div id="myGrid" style="height: 500px; margin-top: 5px" class="ag-theme-balham" ></div>
     
     </body>
     </html>
-
-    <!-- <body style="margin:0px;">
-        <div class="test-container">
-        <div>
-            <button>Set Columns with Initials</button>
-            <button>Remove Columns</button>
-          </div>
-        <div id="myGrid" style="height: 500px; margin-top: 100px;" class="ag-theme-balham"></div>
-    </div>
-	</body>
-
-</html> 
 
 
