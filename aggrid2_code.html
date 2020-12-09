@@ -45,6 +45,9 @@
             .maBreadthU5 {
                 background-color: #ffc7ce;
                 }
+            .bold {
+                font-weight: bold;
+                }
         </style>
         <!-- Data Pull/Scrub -->
         <script type="text/javascript">
@@ -117,12 +120,12 @@
                         coldefs = [...coldefs, {
                             headerName: key,
                             field: key,
+                            lockVisible:true,
+                            lockPinned:true,
+                            suppressMovable:true,
                             //aggFunc: 'sum',
                             enablePivot: true,
                             valueFormatter: cellFormats,
-                            suppressMovable:true,
-                            lockPosition:true,
-                            suppressDragLeaveHidesColumns:true,
                             cellClassRules: {   
                                 
                             'nhnl': function(params) {                  
@@ -185,12 +188,17 @@
                         coldefs = [...coldefs, {
                         headerName: key,
                         field: key,
+                        lockVisible:true,
+                        lockPinned:true,
                         //aggFunc: 'sum',
                         enablePivot: true,
                         pinned: 'left',
-                        suppressMovable:true,
-                        lockPosition:true,
                         cellClassRules: {   
+
+                            'bold': function(params) {                  
+                                    
+                                    return (params.data.Indicator === 'Equal Weighted Index' && params.value === 'Equal Weighted Index')}
+
                         }
                         }];
 
@@ -241,13 +249,12 @@
                 onFirstDataRendered: autoSizeAll2 ,
                 rowData: rowData2,
                 suppressColumnVirtualisation: true,
-
+                
                 defaultColDef: {
-
                 sortable: false,
+                lockVisible:true,
+                lockPinned:true,
                 suppressMovable:true,
-                lockPosition:true,
-                suppressDragLeaveHidesColumns:true,
                 // set the default column width
                 // make every column editable
                 editable: false,
@@ -291,7 +298,7 @@
 
 	
         <body style="margin:0px;">
-            <div id="myGrid2" style="height: 500px; margin-top: 10px;" class="ag-theme-balham"></div>
+            <div id="myGrid2" style="height: 670px; margin-top: 10px;" class="ag-theme-balham"></div>
         </body>
 	
 
