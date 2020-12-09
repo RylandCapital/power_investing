@@ -401,21 +401,37 @@
             }
 
             function threemonth3() {
-                data3 = getColdefs3()[0]
-                gridOptions3.api.setColumnDefs(data3);
-                gridOptions3.api.setRowData(worldview["0"][3]);
+                data = getColdefs()[0]
+                data.forEach(function (colDef, index) {
+                  
+                  colDef.children[11].headerName = '26wmaRS';
+                  
+                  });
+                gridOptions.api.setColumnDefs(data);
+                gridOptions.api.setRowData(worldview["0"][3]);
                 }
 
             function sixmonth3() {
-                data3 = getColdefs3()[1]
-                gridOptions3.api.setColumnDefs(data3);
-                gridOptions3.api.setRowData(worldview["0"][6]);
+                data = getColdefs()[1]
+                data.forEach(function (colDef, index) {
+                  
+                    colDef.children[11].headerName = '26wmaRS';
+                    
+                    });
+                gridOptions.api.setColumnDefs(data);
+                gridOptions.api.setRowData(worldview["0"][6]);
+                
                 }
 
             function twelvemonth3() {
-                data3 = getColdefs3()[2]
-                gridOptions3.api.setColumnDefs(data3);
-                gridOptions3.api.setRowData(worldview["0"][12]);
+                data = getColdefs()[2]
+                data.forEach(function (colDef, index) {
+                  
+                  colDef.children[11].headerName = '26wmaRS';
+                  
+                  });
+                gridOptions.api.setColumnDefs(data);
+                gridOptions.api.setRowData(worldview["0"][12]);
                 }
 
             function onBtRemove() {

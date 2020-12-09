@@ -120,11 +120,14 @@
                             //aggFunc: 'sum',
                             enablePivot: true,
                             valueFormatter: cellFormats,
+                            suppressMovable:true,
+                            lockPosition:true,
+                            suppressDragLeaveHidesColumns:true,
                             cellClassRules: {   
                                 
                             'nhnl': function(params) {                  
-                                    if (params.data.Indicator === '253 NH-NL' || params.data.Indicator === '253 NH-NL 10Day MA'
-                                    || params.data.Indicator === '253 NH-NL 30Day MA')
+                                    if (params.data.Indicator === '52wk NHNL' || params.data.Indicator === '52wk NHNL 30day'
+                                    || params.data.Indicator === '52wk NHNL 10day')
                                         return params.value <  0 },
                             'thrustU4': function(params) { 
                                     if (params.data.Indicator === 'Breadth Thrust')
@@ -133,38 +136,38 @@
                                     if (params.data.Indicator === 'Breadth Thrust')
                                         return params.value <  .30},
                             'advO8': function(params) { 
-                                    if ((params.data.Indicator === 'Advancing Issues'
-                                    || params.data.Indicator === 'Advancing Volume') && (yestadviss===params.value || yestadvvol===params.value))
+                                    if ((params.data.Indicator === 'Advancing Issues %'
+                                    || params.data.Indicator === 'Advancing Volume %') && (yestadviss===params.value || yestadvvol===params.value))
                                         return params.value >  .8 & params.value <  .9},
                             'advO9': function(params) { 
-                                    if ((params.data.Indicator === 'Advancing Issues'
-                                    || params.data.Indicator === 'Advancing Volume') && (yestadviss===params.value || yestadvvol===params.value))
+                                    if ((params.data.Indicator === 'Advancing Issues %'
+                                    || params.data.Indicator === 'Advancing Volume %') && (yestadviss===params.value || yestadvvol===params.value))
                                         return params.value > .9},
                             'decO8': function(params) { 
-                                    if ((params.data.Indicator === 'Declining Issues'
-                                    || params.data.Indicator === 'Declining Volume')  && (yestdeciss===params.value || yestdecvol===params.value))                 
+                                    if ((params.data.Indicator === 'Declining Issues %'
+                                    || params.data.Indicator === 'Declining Volume %')  && (yestdeciss===params.value || yestdecvol===params.value))                 
                                         return params.value >  .8 &  params.value < .9},
                             'decO9': function(params) { 
-                                    if ((params.data.Indicator === 'Declining Issues'
-                                    || params.data.Indicator === 'Declining Volume') && (yestdeciss===params.value || yestdecvol===params.value))
+                                    if ((params.data.Indicator === 'Declining Issues %'
+                                    || params.data.Indicator === 'Declining Volume %') && (yestdeciss===params.value || yestdecvol===params.value))
                                         return params.value >  .9},
                             'mccO': function(params) { 
                                     if (params.data.Indicator === 'McClellan Oscillator')
                                         return params.value <  0},
                             'yestmcma': function(params) { 
-                                    if (params.data.Indicator === 'McClellan Summation' 
+                                    if (params.data.Indicator === 'McClellan Summ.' 
                                     & yestMAd === true & yestMAd_value === params.value)
                                         return true},
                             'fmcma': function(params) { 
-                                    if (params.data.Indicator === 'McClellan Summation' 
+                                    if (params.data.Indicator === 'McClellan Summ.' 
                                     & FMAd === true & FMAd_value === params.value)
                                         return true},
                             'tmcma': function(params) { 
-                                    if (params.data.Indicator === 'McClellan Summation' 
+                                    if (params.data.Indicator === 'McClellan Summ.' 
                                     & TMAd === true & TMAd_value === params.value)
                                         return true},
                             'smcma': function(params) { 
-                                    if (params.data.Indicator === 'McClellan Summation' 
+                                    if (params.data.Indicator === 'McClellan Summ.' 
                                     & SMAd === true & SMAd_value === params.value)
                                         return true},
                             'maBreadthU5': function(params) { 
@@ -184,6 +187,9 @@
                         field: key,
                         //aggFunc: 'sum',
                         enablePivot: true,
+                        pinned: 'left',
+                        suppressMovable:true,
+                        lockPosition:true,
                         cellClassRules: {   
                         }
                         }];
@@ -198,10 +204,16 @@
                 if (params.data.Indicator === '20 MA Breadth' 
                 || params.data.Indicator === '50 MA Breadth'
                 || params.data.Indicator === '200 MA Breadth'
-                || params.data.Indicator === 'Advancing Issues'
-                || params.data.Indicator === 'Advancing Volume'
-                || params.data.Indicator === 'Declining Issues'
-                || params.data.Indicator === 'Declining Volume'
+                || params.data.Indicator === 'Advancing Issues %'
+                || params.data.Indicator === 'Advancing Volume %'
+                || params.data.Indicator === 'Declining Issues %'
+                || params.data.Indicator === 'Declining Volume %'
+                || params.data.Indicator === '% making 21day highs'
+                || params.data.Indicator === '% making 10day highs'
+                || params.data.Indicator === '% making 63day highs'
+                || params.data.Indicator === '% making 10day lows'
+                || params.data.Indicator === '% making 21day lows'
+                || params.data.Indicator === '% making 63day lows'
                 || params.data.Indicator === 'Breadth Thrust') {
                                         return  (params.value*100).toFixed(0) + '%';
                                     }
@@ -232,7 +244,10 @@
 
                 defaultColDef: {
 
-                sortable: true,
+                sortable: false,
+                suppressMovable:true,
+                lockPosition:true,
+                suppressDragLeaveHidesColumns:true,
                 // set the default column width
                 // make every column editable
                 editable: false,

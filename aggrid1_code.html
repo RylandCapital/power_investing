@@ -321,6 +321,14 @@
                         pinned: 'left'
                         }];        
                 }
+                else if (key === '26wmaRS') {
+                    
+                    coldefs = [...coldefs, {
+                        headerName: key,
+                        field: key,
+                        pinned: 'left'
+                        }];        
+                }
                 else {
 
                     coldefs = [...coldefs, {
@@ -391,18 +399,34 @@
 
             function threemonth() {
                 data = getColdefs()[0]
+                data.forEach(function (colDef, index) {
+                  
+                  colDef.children[11].headerName = '13wmaRS';
+                  
+                  });
                 gridOptions.api.setColumnDefs(data);
                 gridOptions.api.setRowData(worldview["0"][3]);
                 }
 
             function sixmonth() {
                 data = getColdefs()[1]
+                data.forEach(function (colDef, index) {
+                  
+                    colDef.children[11].headerName = '26wmaRS';
+                    
+                    });
                 gridOptions.api.setColumnDefs(data);
                 gridOptions.api.setRowData(worldview["0"][6]);
+                
                 }
 
             function twelvemonth() {
                 data = getColdefs()[2]
+                data.forEach(function (colDef, index) {
+                  
+                  colDef.children[11].headerName = '52wmaRS';
+                  
+                  });
                 gridOptions.api.setColumnDefs(data);
                 gridOptions.api.setRowData(worldview["0"][12]);
                 }
