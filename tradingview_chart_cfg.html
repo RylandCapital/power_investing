@@ -42,7 +42,7 @@
                 })
             });
             
-            
+            console.log(positions)
 
             async function makeApiRequest() {
                 try {
@@ -55,6 +55,7 @@
             async function getAllSymbols() {
                 let allSymbols = [];
                 let products = Object.keys(positions[0])
+                console.log(products)
                 products.forEach(ts => {
                     allSymbols = [...allSymbols, {
                         description: ts.replaceAll('_', ' '),
@@ -64,7 +65,9 @@
                         symbol: ts.replaceAll('_', ' '),
                         type: 'ALT',
                     }];  
+                    
                 });
+                
                 
                 return allSymbols;
             }
@@ -90,7 +93,27 @@
                 resolveSymbol: async (symbolName, onSymbolResolvedCallback, onResolveErrorCallback) => {
                     console.log('[resolveSymbol]: Method call', symbolName);
                     const symbols = await getAllSymbols();
+                    console.log(symbols)
+               
+                    const open = symbols.filter(symbol => {
+                        const openbar = symbol.full_name.split(" ").slice(-1)[0] === 'OPEN'
+                        return openbar
+                    })
+                    const high = symbols.filter(symbol => {
+                        const openbar = symbol.full_name.split(" ").slice(-1)[0] === 'HIGH'
+                        return openbar
+                    })
+                    const low = symbols.filter(symbol => {
+                        const openbar = symbol.full_name.split(" ").slice(-1)[0] === 'LOW'
+                        return openbar
+                    })
+                    const closee = symbols.filter(symbol => {
+                        const openbar = symbol.full_name.split(" ").slice(-1)[0] === 'CLOSE'
+                        return openbar
+                    })
+                    console.log(open)
                     const symbolItem = symbols.find(({ full_name }) => full_name === symbolName.replaceAll('_',' '));
+                   
                     if (!symbolItem) {
                         console.log('[resolveSymbol]: Cannot resolve symbol', symbolName.replaceAll('_',' '));
                         onResolveErrorCallback('cannot resolve symbol');
@@ -99,6 +122,10 @@
                     const symbolInfo = {
                         name: symbolItem.symbol,
                         name2: symbolItem.full_name2,
+                        open: open[0].full_name2,
+                        high: high[0].full_name2,
+                        low: low[0].full_name2,
+                        close: closee[0].full_name2,
                         description: symbolItem.description,
                         type: symbolItem.type,
                         exchange: symbolItem.exchange,
@@ -113,21 +140,29 @@
                     console.log('[getBars]: Method call', symbolInfo, resolution, from, to);
                     try {
                         const data = await makeApiRequest();
-                        
+                        console.log(data)
                         let bars = []; 
                         let full_name = symbolInfo.name2
+                        let low = symbolInfo.low
+                        let high = symbolInfo.high
+                        let open = symbolInfo.open
+                        let close = symbolInfo.close
+                        console.log(low)
+                        
+                        
                         data.forEach(bar => {
                             if (bar.time >= from && bar.time < to) {
+                            
                                 bars = [...bars, {
                                     time: bar.date,
-                                    low: bar[full_name],
-                                    high: bar[full_name],
-                                    open: bar[full_name],
-                                    close: bar[full_name],
+                                    low: bar[low],
+                                    high: bar[high],
+                                    open: bar[open],
+                                    close: bar[close],
                                 }];
                             }
                         });
-
+                        
                         onHistoryCallback(bars, { noData: false })
                         console.log(`[getBars]: returned ${bars.length} bar(s)`);
                         if (bars.length === 0) {
@@ -147,7 +182,6 @@
 
                 calculateHistoryDepth : (resolution, resolutionBack, intervalBack) => {
                     if (resolution === "D") {
-                        console.log('here')
                         return {
                             resolutionBack: 'M',
                             intervalBack: 5000
@@ -281,7 +315,7 @@
                     autosize: true,
                     studiesOverrides: {},
                     custom_indicators_getter: indicator,
-                    saved_data: charttt,
+                    //saved_data: charttt,
                 });
             };
             
