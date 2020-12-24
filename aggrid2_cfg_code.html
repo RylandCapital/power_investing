@@ -1,0 +1,266 @@
+<html>
+
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+        <script src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.js"></script>
+        <script src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.js"></script>
+       
+        <style>
+            
+        </style>
+        <!-- Data Pull/Scrub -->
+        <script type="text/javascript">
+        
+
+            function Get2(yourUrl){
+                var Httpreq = new XMLHttpRequest(); // a new request
+                Httpreq.open("GET",yourUrl,false);
+                Httpreq.send(null);
+                return Httpreq.responseText;          
+            }
+            
+            // ag grid data pull and format
+            var grid_json = JSON.parse(Get2('http://18.216.242.3/aggrid2_cfg'));
+            console.log(grid_json)
+            const product_keys_ag2 = Object.keys(grid_json[0]).filter(function(col){
+            return col;
+            });
+
+            final_json = []
+            product_keys_ag2.forEach((key) => {
+                grid_json.forEach((item) => {
+                if (key !== 'sector' & key !== 'Indicator' & key !== '_id') {
+                item[key] = Number(Number(item[key]).toFixed(2))
+                }
+            })
+            });
+
+            //filter the right page/sector/subsector
+            grid_json.forEach((item) => {
+                if (item['sector'] == 'Financials') {
+                    final_json.push(item)
+                }
+            })
+         
+            console.log(final_json)
+            yestMAd = final_json[8]['Yesterday'] < final_json[9]['Yesterday']
+            yestMAd_value = final_json[8]['Yesterday']
+            FMAd = final_json[8]['5 Days Ago'] < final_json[9]['5 Days Ago']
+            FMAd_value = final_json[8]['5 Days Ago']
+            TMAd = final_json[8]['21 Days Ago'] < final_json[9]['21 Days Ago']
+            TMAd_value = final_json[8]['21 Days Ago']
+            SMAd = final_json[8]['63 Days Ago'] < final_json[9]['63 Days Ago']
+            SMAd_value = final_json[8]['63 Days Ago']
+
+            yestadviss = final_json[11]['Yesterday']
+            yestadvvol = final_json[13]['Yesterday']
+            yestdeciss = final_json[12]['Yesterday']
+            yestdecvol = final_json[14]['Yesterday']
+
+            ma20yest = final_json[4]['Yesterday']
+            ma50yest = final_json[5]['Yesterday']
+            ma200yest = final_json[6]['Yesterday']
+
+            //this function takes raw AGgrid json and makes it ready
+            function getColdefs2() {
+
+                let  coldefs = []
+                const product_keys_ag2 = Object.keys(final_json[0]).filter(function(col){
+                if (col!== '_id' & col !== 'sector') {
+                    return  col;
+                }
+                });
+
+
+                product_keys_ag2.forEach((key) => {
+                        if (key !== 'Indicator') {
+
+                        
+                        coldefs = [...coldefs, {
+                            headerName: key,
+                            field: key,
+                            lockVisible:true,
+                            lockPinned:true,
+                            suppressMovable:true,
+                            //aggFunc: 'sum',
+                            enablePivot: true,
+                            valueFormatter: cellFormats,
+                            cellClassRules: {   
+                            /*    
+                            'nhnl': function(params) {                  
+                                    if (params.data.Indicator === '52wk NHNL' || params.data.Indicator === '52wk NHNL 30day'
+                                    || params.data.Indicator === '52wk NHNL 10day')
+                                        return params.value <  0 },
+                            'thrustU4': function(params) { 
+                                    if (params.data.Indicator === 'Breadth Thrust')
+                                        return params.value <  .40 & params.value >  .30},
+                            'thrustU3': function(params) { 
+                                    if (params.data.Indicator === 'Breadth Thrust')
+                                        return params.value <  .30},
+                            'advO8': function(params) { 
+                                    if ((params.data.Indicator === 'Advancing Issues %'
+                                    || params.data.Indicator === 'Advancing Volume %') && (yestadviss===params.value || yestadvvol===params.value))
+                                        return params.value >  .8 & params.value <  .9},
+                            'advO9': function(params) { 
+                                    if ((params.data.Indicator === 'Advancing Issues %'
+                                    || params.data.Indicator === 'Advancing Volume %') && (yestadviss===params.value || yestadvvol===params.value))
+                                        return params.value > .9},
+                            'decO8': function(params) { 
+                                    if ((params.data.Indicator === 'Declining Issues %'
+                                    || params.data.Indicator === 'Declining Volume %')  && (yestdeciss===params.value || yestdecvol===params.value))                 
+                                        return params.value >  .8 &  params.value < .9},
+                            'decO9': function(params) { 
+                                    if ((params.data.Indicator === 'Declining Issues %'
+                                    || params.data.Indicator === 'Declining Volume %') && (yestdeciss===params.value || yestdecvol===params.value))
+                                        return params.value >  .9},
+                            'mccO': function(params) { 
+                                    if (params.data.Indicator === 'McClellan Oscillator')
+                                        return params.value <  0},
+                            'yestmcma': function(params) { 
+                                    if (params.data.Indicator === 'McClellan Summ.' 
+                                    & yestMAd === true & yestMAd_value === params.value)
+                                        return true},
+                            'fmcma': function(params) { 
+                                    if (params.data.Indicator === 'McClellan Summ.' 
+                                    & FMAd === true & FMAd_value === params.value)
+                                        return true},
+                            'tmcma': function(params) { 
+                                    if (params.data.Indicator === 'McClellan Summ.' 
+                                    & TMAd === true & TMAd_value === params.value)
+                                        return true},
+                            'smcma': function(params) { 
+                                    if (params.data.Indicator === 'McClellan Summ.' 
+                                    & SMAd === true & SMAd_value === params.value)
+                                        return true},
+                            'maBreadthU5': function(params) { 
+                                    if ((params.data.Indicator === '20 MA Breadth' || params.data.Indicator === '50 MA Breadth'
+                                    || params.data.Indicator === '200 MA Breadth')  && (ma20yest===params.value || 
+                                    ma50yest===params.value || ma200yest===params.value))
+                                        return params.value <  .05}*/
+
+                        }}];
+                
+                        }
+
+                        else {
+
+                        coldefs = [...coldefs, {
+                        headerName: key,
+                        field: key,
+                        lockVisible:true,
+                        lockPinned:true,
+                        //aggFunc: 'sum',
+                        enablePivot: true,
+                        pinned: 'left',
+                        cellClassRules: {   
+
+                            'bold': function(params) {                  
+                                    
+                                    return (params.data.Indicator === 'Equal Weighted Index' && params.value === 'Equal Weighted Index')}
+
+                        }
+                        }];
+
+                        }
+                    })
+                        
+                return coldefs
+            }
+
+            function cellFormats(params) {
+                if (params.data.Indicator === '20 MA Breadth' 
+                || params.data.Indicator === '50 MA Breadth'
+                || params.data.Indicator === '200 MA Breadth'
+                || params.data.Indicator === 'Advancing Issues %'
+                || params.data.Indicator === 'Advancing Volume %'
+                || params.data.Indicator === 'Declining Issues %'
+                || params.data.Indicator === 'Declining Volume %'
+                || params.data.Indicator === '% making 21day highs'
+                || params.data.Indicator === '% making 10day highs'
+                || params.data.Indicator === '% making 63day highs'
+                || params.data.Indicator === '% making 10day lows'
+                || params.data.Indicator === '% making 21day lows'
+                || params.data.Indicator === '% making 63day lows'
+                || params.data.Indicator === 'Breadth Thrust') {
+                                        return  (params.value*100).toFixed(0) + '%';
+                                    }
+
+                }
+            
+
+
+        </script>
+        
+        <!-- AG GRID -->
+        <script>
+            var columnDefs2 = getColdefs2()
+                
+            // specify the data
+            var rowData2 = final_json;
+                
+            // let the grid know which columns and what data to use
+            var gridOptions2 = {
+                enableCharts: true,
+                enableRangeSelection: true,
+                rowGroup: true,
+                navigator: { enabled: true },
+                columnDefs: columnDefs2,
+                onFirstDataRendered: autoSizeAll2 ,
+                rowData: rowData2,
+                suppressColumnVirtualisation: true,
+                
+                defaultColDef: {
+                sortable: false,
+                lockVisible:true,
+                lockPinned:true,
+                suppressMovable:true,
+                // set the default column width
+                // make every column editable
+                editable: false,
+                // make every column use 'text' filter by default
+                filter: 'agTextColumnFilter',
+                suppressMenu: true,
+                // enable floating filters by default
+                floatingFilter: false,
+                // make columns resizable
+                resizable: true,
+
+                //width: 500
+
+                },
+            // define specific column types
+            columnTypes: {
+                numberColumn: { filter: 'agNumberColumnFilter' },
+                },      
+            }
+
+            
+            function autoSizeAll2(skipHeader) {
+                var allColumnIds2 = [];
+                gridOptions2.columnApi.getAllColumns().forEach(function (column) {
+                    allColumnIds2.push(column.colId);
+                });
+                gridOptions2.columnApi.autoSizeColumns(allColumnIds2, false);
+                }
+            
+            function sizeToFit() {
+                gridOptions2.api.sizeColumnsToFit();
+                }
+
+            // setup the grid after the page has finished loading
+            document.addEventListener('DOMContentLoaded', function() {
+                var gridDiv2 = document.querySelector('#myGrid2');
+                new agGrid.Grid(gridDiv2, gridOptions2);
+            });
+        </script>
+
+
+	
+        <body style="margin:0px;">
+            <div id="myGrid2" style="height: 670px; margin-top: 10px;" class="ag-theme-balham"></div>
+        </body>
+	
+
+</html>
+
+
