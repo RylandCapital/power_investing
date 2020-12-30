@@ -1,0 +1,468 @@
+<html>
+	<head>
+
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+        <script src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.js"></script>
+        <script src="https://unpkg.com/ag-grid-community/dist/styles/ag-grid.css"></script>
+        <script src="https://unpkg.com/ag-grid-community/dist/styles/ag-theme-material.css"></script>
+        <style>
+            .a1 {
+            background-color:#f8696b;
+            }
+            .a2 {
+            background-color: #f87a6e;
+            }
+            .a3 {
+            background-color: #f98a71;
+            }
+            .a4 {
+            background-color:#fa9a74;
+            }
+            .a5 {
+            background-color: #fbaa77;
+            }
+            .a6 {
+            background-color: #fcbb7a;
+            }
+            .a7 {
+            background-color:#fdca7d;
+            }
+            .a8 {
+            background-color: #feda80;
+            }
+            .a9 {
+            background-color: #ffeb84;
+            }
+            .a10 {
+            background-color:#ece783;
+            }
+            .a11 {
+            background-color: #d8e082;
+            }
+            .a12 {
+            background-color: #c5db81;
+            }
+            .a13 {
+            background-color:#b2d580;
+            }
+            .a14 {
+            background-color: #9ecf7f;
+            }
+            .a15 {
+            background-color: #89ca7e;
+            }
+            .a16 {
+            background-color:#77c47d;
+            }
+            .a17 {
+            background-color: #63be7b;
+            }
+            .b1 {
+            background-color:#ffc7ce;
+            }
+            .b2 {
+            background-color: #c7efd0;
+            }
+
+            .img {
+                width: 56px;
+                height: 56px;
+            }
+
+            .ag-theme-balham .ag-header-group-cell-label {
+                display: flex;
+                align-items: center;
+                justify-content: center; ;
+                }
+
+            .button {
+                width: auto;
+                height: auto;
+                text-align: center;
+                font-size: .7rem;
+                padding: 2px 5px;
+                color: black;
+                display: inline-block;
+                margin: 0px 0px;
+                border-radius: 5px;
+                border-color: black;
+                border-width: 2px;
+                background-color: #f5f7f7
+            }
+            
+            .button:hover {
+              background-color: #b9d7fb;
+              color: black;
+            }
+            
+            .button:active {
+              background-color: #f5f7f7;
+              box-shadow: 0 5px #666;
+              transform: translateY(10px);
+            }
+
+            .button:focus{
+              background-color: #f5f7f7;
+              color: black;
+            }
+        </style>
+        
+        
+        <!-- Data Pull/Scrub -->
+        <script type="text/javascript">
+        
+
+            function Get(yourUrl){
+                var Httpreq = new XMLHttpRequest(); // a new request
+                Httpreq.open("GET",yourUrl,false);
+                Httpreq.send(null);
+                return Httpreq.responseText;          
+            }
+            
+            // ag grid data pull and scrub
+            var worldview = JSON.parse(Get('http://18.216.242.3/aggridEW1_pi'));
+            worldviewtfs = Object.keys(worldview["0"]).slice(0,3)
+            console.log(worldview)
+            console.log(Object.keys(worldview))
+            console.log(worldview["0"])
+            console.log(Object.keys(worldview["0"]).slice(0,3))
+            
+            const product_keys_ag = Object.keys(worldview["0"][3][0]).filter(function(number){
+            return number;
+            });
+            
+
+            worldviewtfs.forEach((tf) => {
+            product_keys_ag.forEach((key) => {
+                worldview["0"][tf].forEach((item) => {
+                console.log(item)
+                if (key !== 'Description' & key !== 'Symbol') {
+                item[key] = Number(Number(item[key]).toFixed(2))
+                }
+            })
+            })
+            });
+        </script>
+        
+        <!-- AG GRID -->
+        <script>
+            
+            function getColdefs() {
+                let coldefs_all = []
+                worldviewtfs = Object.keys(worldview["0"]).slice(0,3)
+                worldviewtfs.forEach((tf) => {
+                let  coldefs = []
+                const product_keys_ag = Object.keys(worldview["0"][3][0]).filter(function(number){
+                    if (number !== '_id' & number !== 'date' & number !== 'Description') {
+                    return  number;
+                    }
+                });
+
+                product_keys_ag.forEach((key) => {
+                
+                if (key === 'RS-5' || key === 'RS-21' || key === 'RS-63') {
+                    coldefs = [...coldefs, {
+                        headerName: key,
+                        field: key,
+                        //aggFunc: 'sum',
+                        enablePivot: true,
+                        cellClassRules: {
+                            'a1': 'x <= 6',
+                            'a2': 'x > 6  && x <= 12',
+                            'a3': 'x > 12  && x <= 18',
+                            'a4': 'x > 18  && x <= 24',
+                            'a5': 'x > 24  && x <= 30',
+                            'a6': 'x > 30  && x <= 36',
+                            'a7': 'x > 36  && x <= 42',
+                            'a8': 'x > 42  && x <= 48',
+                            'a9': 'x > 48  && x <= 54',
+                            'a10': 'x > 54  && x <= 60',
+                            'a11': 'x > 60  && x <= 66',
+                            'a12': 'x > 66  && x <= 72',
+                            'a13': 'x > 72  && x <= 78',
+                            'a14': 'x > 78  && x <= 84',
+                            'a15': 'x > 84  && x <= 90',
+                            'a16': 'x > 90  && x <= 96',
+                            'a17': 'x > 96',
+                            //'a1': 'x <= 3',
+                            //'a2': 'x > 3  && x <= 6',
+                            //'a3': 'x > 6  && x <= 9',
+                            //'a4': 'x > 9  && x <= 12',
+                            //'a5': 'x > 12  && x <= 15',
+                            //'a6': 'x > 15  && x <= 18',
+                            //'a7': 'x > 18  && x <= 21',
+                            //'a8': 'x > 21  && x <= 24',
+                            //'a9': 'x > 24  && x <= 27',
+                            //'a10': 'x > 27  && x <= 30',
+                            //'a11': 'x > 30  && x <= 33',
+                            //'a12': 'x > 33  && x <= 36',
+                            //'a13': 'x > 36  && x <= 39',
+                            //'a14': 'x > 39  && x <= 42',
+                            //'a15': 'x > 42  && x <= 45',
+                            //'a16': 'x > 45  && x <= 48',
+                            //'a17': 'x > 48  && x <= 51',
+                            //'a18': 'x > 51  && x <= 54',
+                            //'a19': 'x > 54  && x <= 57',
+                            //'a20': 'x > 57  && x <= 60',
+                            //'a21': 'x > 60  && x <= 63',
+                            //'a22': 'x > 63  && x <= 66',
+                            //'a23': 'x > 66  && x <= 69',
+                            //'a24': 'x > 69  && x <= 72',
+                            //'a25': 'x > 72  && x <= 75',
+                            //'a252': 'x > 75  && x <= 81',
+                            //'a26': 'x > 78  && x <= 81',
+                            //'a262': 'x > 81  && x <= 84',
+                            //'a27': 'x > 84  && x <= 87',
+                            //'a28': 'x > 87  && x <= 90',
+                            //'a29': 'x > 90  && x <= 93',
+                            //'a30': 'x > 83 && x <= 96',
+                            //'a31': 'x > 96  && x <= 99',
+
+                        }
+                        }];}
+                else if (key === 'RS') {
+                    
+                    coldefs = [...coldefs, {
+                        sort: 'desc',
+                        headerName: key,
+                        field: key,
+                        //aggFunc: 'sum',
+                        enablePivot: true,
+                        cellClassRules: {
+                            'a1': 'x <= 6',
+                            'a2': 'x > 6  && x <= 12',
+                            'a3': 'x > 12  && x <= 18',
+                            'a4': 'x > 18  && x <= 24',
+                            'a5': 'x > 24  && x <= 30',
+                            'a6': 'x > 30  && x <= 36',
+                            'a7': 'x > 36  && x <= 42',
+                            'a8': 'x > 42  && x <= 48',
+                            'a9': 'x > 48  && x <= 54',
+                            'a10': 'x > 54  && x <= 60',
+                            'a11': 'x > 60  && x <= 66',
+                            'a12': 'x > 66  && x <= 72',
+                            'a13': 'x > 72  && x <= 78',
+                            'a14': 'x > 78  && x <= 84',
+                            'a15': 'x > 84  && x <= 90',
+                            'a16': 'x > 90  && x <= 96',
+                            'a17': 'x > 96',
+                            //'a1': 'x <= 3',
+                            //'a2': 'x > 3  && x <= 6',
+                            //'a3': 'x > 6  && x <= 9',
+                            //'a4': 'x > 9  && x <= 12',
+                            //'a5': 'x > 12  && x <= 15',
+                            //'a6': 'x > 15  && x <= 18',
+                            //'a7': 'x > 18  && x <= 21',
+                            //'a8': 'x > 21  && x <= 24',
+                            //'a9': 'x > 24  && x <= 27',
+                            //'a10': 'x > 27  && x <= 30',
+                            //'a11': 'x > 30  && x <= 33',
+                            //'a12': 'x > 33  && x <= 36',
+                            //'a13': 'x > 36  && x <= 39',
+                            //'a14': 'x > 39  && x <= 42',
+                            //'a15': 'x > 42  && x <= 45',
+                            //'a16': 'x > 45  && x <= 48',
+                            //'a17': 'x > 48  && x <= 51',
+                            //'a18': 'x > 51  && x <= 54',
+                            //'a19': 'x > 54  && x <= 57',
+                            //'a20': 'x > 57  && x <= 60',
+                            //'a21': 'x > 60  && x <= 63',
+                            //'a22': 'x > 63  && x <= 66',
+                            //'a23': 'x > 66  && x <= 69',
+                            //'a24': 'x > 69  && x <= 72',
+                            //'a25': 'x > 72  && x <= 75',
+                            //'a252': 'x > 75  && x <= 81',
+                            //'a26': 'x > 78  && x <= 81',
+                            //'a262': 'x > 81  && x <= 84',
+                            //'a27': 'x > 84  && x <= 87',
+                            //'a28': 'x > 87  && x <= 90',
+                            //'a29': 'x > 90  && x <= 93',
+                            //'a30': 'x > 83 && x <= 96',
+                            //'a31': 'x > 96  && x <= 99',
+
+                        }
+                        }];
+                    
+                }
+                else if (key === 'Daily%' || key === 'Week%' || key === 'Mo%' || key === 'Qtr%') {
+                    
+                    coldefs = [...coldefs, {
+                        headerName: key,
+                        field: key,
+                        cellRenderer: deltaIndicator
+                        }];
+                    
+                }
+                else if (key === 'RSMovers-21' || key === 'RSMovers') {
+                    
+                    coldefs = [...coldefs, {
+                        headerName: key,
+                        field: key,
+                        cellClassRules: {
+                            'b1': 'x <= -20',
+                            'b2': 'x >= 20',
+
+                        }
+                        }];        
+                }
+                else if (key === 'Symbol') {
+                    
+                    coldefs = [...coldefs, {
+                        headerName: 'Sector',
+                        field: key,
+                        pinned: 'left',
+                        }];        
+                } 
+                else if (key === '26wmaRS') {
+                    
+                    coldefs = [...coldefs, {
+                        headerName: key,
+                        field: key,
+                        }];        
+                }
+                else {
+
+                    coldefs = [...coldefs, {
+                        headerName: key,
+                        field: key,
+                        }];
+                    }
+                    
+                  
+                }); 
+
+                coldefs_all.push([{headerName: String(tf)+' Month RS', headerClass : 'grid-cell-centered',
+                children: coldefs}])
+                
+                })
+                console.log(coldefs_all)
+                return coldefs_all
+            }
+            
+            var columnDefs = getColdefs()[0]
+                
+            // specify the data
+            var rowData = worldview["0"][3];
+                
+            var gridOptions = {
+                columnDefs: columnDefs,
+                onFirstDataRendered: autoSizeAll ,
+                rowData: rowData,
+                suppressColumnVirtualisation: true,
+
+            
+            defaultColDef: {
+
+                sortable: true,
+                editable: false,
+                resizable: true,
+
+            },
+                
+            }
+
+            function sizeToFit() {
+                gridOptions.api.sizeColumnsToFit();
+                }
+            
+            function autoSizeAll(skipHeader) {
+                var allColumnIds = [];
+                gridOptions.columnApi.getAllColumns().forEach(function (column) {
+                    allColumnIds.push(column.colId);
+                });
+                gridOptions.columnApi.autoSizeColumns(allColumnIds, false);
+                }
+
+            function linkRender(params) {
+             return '<a href="https://finance.yahoo.com/quote/' + params.value + '"' + ' target="_blank" rel="noopener">' + params.value+'</a>'
+
+            }
+
+            function threemonth() {
+                data = getColdefs()[0]
+                data.forEach(function (colDef, index) {
+                  
+                  colDef.children[11].headerName = '13wmaRS';
+                  
+                  });
+                gridOptions.api.setColumnDefs(data);
+                gridOptions.api.setRowData(worldview["0"][3]);
+                }
+
+            function sixmonth() {
+                data = getColdefs()[1]
+                data.forEach(function (colDef, index) {
+                  
+                    colDef.children[11].headerName = '26wmaRS';
+                    
+                    });
+                gridOptions.api.setColumnDefs(data);
+                gridOptions.api.setRowData(worldview["0"][6]);
+                
+                }
+
+            function twelvemonth() {
+                data = getColdefs()[2]
+                data.forEach(function (colDef, index) {
+                  
+                  colDef.children[11].headerName = '52wmaRS';
+                  
+                  });
+                gridOptions.api.setColumnDefs(data);
+                gridOptions.api.setRowData(worldview["0"][12]);
+                }
+
+            function onFilterTextBoxChanged() {
+                gridOptions.api.setQuickFilter(document.getElementById('filter-text-box').value);
+            }
+
+
+            function deltaIndicator(params) {
+                var element = document.createElement("span");
+                var imageElement = document.createElement("img");
+                // visually indicate if this months value is higher or lower than last months value
+                if (params.value > .10) {
+                    imageElement.src = "https://github.com/RylandCapital/power_investing/blob/main/up-arrow%20blue.png?raw=true";
+                    imageElement.height = 12
+                    imageElement.width = 12
+                } else if (params.value <= .10 & params.value >= -.10) {
+                    imageElement.src = "https://github.com/RylandCapital/power_investing/blob/main/up-arrow%20yellow.png?raw=true";
+                    imageElement.height = 12
+                    imageElement.width = 12
+                } else {
+                    imageElement.src = "https://github.com/RylandCapital/power_investing/blob/main/up-arrow%20redtest.png?raw=true";
+                    imageElement.height = 12
+                    imageElement.width = 12
+                }
+
+                element.appendChild(imageElement);
+                element.appendChild(document.createTextNode(params.value));
+                return element;
+            }
+
+            // setup the grid after the page has finished loading
+            document.addEventListener('DOMContentLoaded', function() {
+                var gridDiv = document.querySelector('#myGrid');
+                new agGrid.Grid(gridDiv, gridOptions);
+            });
+        </script>
+
+    </head>
+
+
+    <body style="margin:2px;">
+        
+      <div>
+        <button onclick="threemonth()" class="button">3 Month RS</button>
+        <button onclick="sixmonth()" class="button">6 Month RS</button>
+        <button onclick="twelvemonth()" class="button">12 Month RS</button>
+        <input  style="width: 200px; height: 25px; font-size: .7rem; padding: 2px 5px;" type="text" id="filter-text-box" placeholder="Ticker..." length=10 oninput="onFilterTextBoxChanged()"/>
+
+      </div>
+      <div id="myGrid" style="height: 500px; margin-top: 5px" class="ag-theme-balham" ></div>
+    
+    </body>
+    </html>
+
+
